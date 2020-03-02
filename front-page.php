@@ -12,6 +12,26 @@
  * @package underscore
  */
 
+  // The Query
+  $args = array(
+    "category_name" => "nouvelle",
+    "posts_per_page" => 3,     
+    "orderby" => "date",
+    "order" => "ASC"
+);
+
+$query1 = new WP_Query( $args );
+
+  /* The 2nd Query (without global var) */
+  $args2 = array(
+    "category_name" => "conference",
+    "posts_per_page" => 10
+
+);
+
+  $query2 = new WP_Query( $args2 );
+
+
 get_header();
 ?>
 ////////////////// FRONT-PAGE //////////////////////////
@@ -43,24 +63,14 @@ get_header();
  //////////////Nouvelle
 echo '<h2>' . category_description( get_category_by_slug( 'nouvelle' )). '<h2>';
 
- // The Query
- $args = array(
-     "category_name" => "nouvelle",
-     "posts_per_page" => 3,     
-     "orderby" => "date",
-     "order" => "ASC"
- );
-
- $query1 = new WP_Query( $args );
   
- // The Loop
- while ( $query1->have_posts() ) {
-     $query1->the_post();
-     echo '<h2>' . get_the_title() . '</h2>';
-     echo '<p>' . get_the_excerpt() .'</p>';
-
-     
- }
+  // The 2nd Loop
+  while ( $query2->have_posts() ) {
+      $query2->the_post();
+      the_post_thumbnail('thumbnail');
+      echo '<h2>' . get_the_title() . '</h2>';
+      echo '<p>' . get_the_excerpt() . '</p>';
+  }
 
  /* Restore original Post Data 
   * NB: Because we are using new WP_Query we aren't stomping on the 
@@ -70,21 +80,18 @@ echo '<h2>' . category_description( get_category_by_slug( 'nouvelle' )). '<h2>';
   */
  wp_reset_postdata();
   
-  
- /* The 2nd Query (without global var) */
-$args2 = array(
-    "category_name" => "evenement",
-    "posts_per_page" => 10
 
-);
+ 
+// The Loop
+while ( $query1->have_posts() ) {
+    $query1->the_post();
+    echo '<h2>' . get_the_title() . '</h2>';
+    echo '<p>' . get_the_excerpt() .'</p>';
 
-  $query2 = new WP_Query( $args2 );
+    
+}
   
-  // The 2nd Loop
-  while ( $query2->have_posts() ) {
-      $query2->the_post();
-      echo '<h2>' . get_the_title( $query2->post->ID ) . '</h2>';
-  }
+
   
 //  // Restore original Post Data
 wp_reset_postdata();
