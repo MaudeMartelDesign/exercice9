@@ -61,14 +61,14 @@ get_header();
         ?>
         <?php
  //////////////Nouvelle
-echo '<h2>' . category_description( get_category_by_slug( 'nouvelle' )). '<h2>';
+echo '<h2>' . category_description( get_category_by_slug( 'conference' )). '<h2>';
 
   
   // The 2nd Loop
   while ( $query2->have_posts() ) {
       $query2->the_post();
       the_post_thumbnail('thumbnail');
-      echo '<h2>' . get_the_title() . '</h2>';
+      echo '<h2>' . get_the_title(). ", " . get_the_date(). '</h2>';
       echo '<p>' . get_the_excerpt() . '</p>';
   }
 
@@ -79,18 +79,14 @@ echo '<h2>' . category_description( get_category_by_slug( 'nouvelle' )). '<h2>';
   * wp_reset_postdata().
   */
  wp_reset_postdata();
-  
-
- 
+ echo '<h2>' . category_description( get_category_by_slug( 'nouvelle' )). '<h2>';
 // The Loop
 while ( $query1->have_posts() ) {
     $query1->the_post();
     echo '<h2>' . get_the_title() . '</h2>';
     echo '<p>' . get_the_excerpt() .'</p>';
-
-    
+   
 }
-  
 
   
 //  // Restore original Post Data
