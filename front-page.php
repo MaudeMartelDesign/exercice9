@@ -15,7 +15,7 @@
   // The Query
   $args = array(
     "category_name" => "nouvelle",
-    "posts_per_page" => 3,     
+    "posts_per_page" => 5,     
     "orderby" => "date",
     "order" => "ASC"
 );
@@ -25,11 +25,20 @@ $query1 = new WP_Query( $args );
   /* The 2nd Query (without global var) */
   $args2 = array(
     "category_name" => "conference",
-    "posts_per_page" => 10
+    "posts_per_page" => 5
 
 );
 
   $query2 = new WP_Query( $args2 );
+
+  /* The 3nd Query (without global var) */
+  $args3 = array(
+    "category_name" => "evenement",
+    "orderby" => "date",
+
+);
+
+  $query3 = new WP_Query( $args3 );
 
 
 get_header();
@@ -61,15 +70,18 @@ get_header();
         ?>
         <?php
  //////////////Nouvelle
-echo '<h2>' . category_description( get_category_by_slug( 'conference' )). '<h2>';
 
-  
+
+echo '<section id="conference">' . category_description( get_category_by_slug( 'conference' )). '</section>';
+
   // The 2nd Loop
   while ( $query2->have_posts() ) {
       $query2->the_post();
+      echo "<div class='conference'>";
       the_post_thumbnail('thumbnail');
       echo '<h2>' . get_the_title(). ", " . get_the_date(). '</h2>';
       echo '<p>' . get_the_excerpt() . '</p>';
+      echo "</div>";
   }
 
  /* Restore original Post Data 
@@ -79,16 +91,30 @@ echo '<h2>' . category_description( get_category_by_slug( 'conference' )). '<h2>
   * wp_reset_postdata().
   */
  wp_reset_postdata();
- echo '<h2>' . category_description( get_category_by_slug( 'nouvelle' )). '<h2>';
+ echo '<h2>' . category_description( get_category_by_slug( 'nouvelle' )). '</h2>';
+ echo "<section id='nouvelle'>";
 // The Loop
 while ( $query1->have_posts() ) {
     $query1->the_post();
+    echo "<div class='nouvelle'>";
     echo '<h2>' . get_the_title() . '</h2>';
-    echo '<p>' . get_the_excerpt() .'</p>';
-   
+    the_post_thumbnail('thumbnail');
+    echo "</div>";
+}
+echo "</section>";
+//  // Restore original Post Data
+wp_reset_postdata();
+
+/////////////////ÉVÈNEMENTS////////////////
+
+echo '<section id="evenement">' . category_description( get_category_by_slug( 'evenement' )). '</section>';
+// The Loop
+
+while ( $query3->have_posts() ) {
+    $query3->the_post();
+    echo '<p>' . get_the_title() . ' - ' . get_the_date('d/m/j') . '<p>';
 }
 
-  
 //  // Restore original Post Data
 wp_reset_postdata();
   
