@@ -5,6 +5,7 @@
 .post,
 .page {
 	margin: 0 0 1.5em;
+    display: flex;
 }
 
 .updated:not(.published) {
@@ -21,3 +22,9 @@
 	clear: both;
 	margin: 0 0 1.5em;
 }
+
+div{
+   flex-direction:  column;
+}
+
+
